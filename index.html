@@ -18,6 +18,7 @@
             <button class="tab-btn" onclick="showTab('add-batch')">➕ Add Batch</button>
             <button class="tab-btn" onclick="showTab('batches')">🐓 My Batches</button>
             <button class="tab-btn" onclick="showTab('ai-insights')">🧠 AI Insights</button>
+            <button class="tab-btn" onclick="showTab('settings')">⚙️ Settings</button>
         </nav>
 
         <div class="main-content">
@@ -79,13 +80,20 @@
                         <label for="expectedHarvest">Expected Harvest Days:</label>
                         <input type="number" id="expectedHarvest" placeholder="e.g., 45" required>
                     </div>
-                    <button type="submit" class="btn-add">✅ Add Batch</button>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-add">✅ Add Batch</button>
+                        <button type="reset" class="btn-clear">🔄 Clear Form</button>
+                    </div>
                 </form>
             </section>
 
             <!-- MY BATCHES TAB -->
             <section id="batches" class="tab-content">
                 <h2>🐓 My Chicken Batches</h2>
+                <div class="batch-controls">
+                    <button onclick="exportBatches()" class="btn-secondary">📥 Export to CSV</button>
+                    <button onclick="deleteAllBatches()" class="btn-danger">🗑️ Delete All</button>
+                </div>
                 <div id="batchesList" class="batches-list"></div>
             </section>
 
@@ -94,6 +102,76 @@
                 <h2>🧠 AI Insights & Recommendations</h2>
                 <div id="aiInsightsList" class="insights-list"></div>
             </section>
+
+            <!-- SETTINGS TAB -->
+            <section id="settings" class="tab-content">
+                <h2>⚙️ Settings & Tools</h2>
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3>📊 Data Management</h3>
+                        <button onclick="downloadBackup()" class="btn-primary">💾 Download Backup</button>
+                        <button onclick="uploadBackup()" class="btn-secondary">📤 Upload Backup</button>
+                    </div>
+                    <div class="settings-card">
+                        <h3>🧹 Clear Data</h3>
+                        <button onclick="clearAllData()" class="btn-danger">🗑️ Clear All Data</button>
+                        <p style="margin-top: 10px; color: #666; font-size: 0.9em;">⚠️ This will permanently delete all batches and logs</p>
+                    </div>
+                    <div class="settings-card">
+                        <h3>📱 Print Reports</h3>
+                        <button onclick="printAllBatches()" class="btn-secondary">🖨️ Print All Batches</button>
+                        <button onclick="printAIReport()" class="btn-secondary">📄 Print AI Report</button>
+                    </div>
+                    <div class="settings-card">
+                        <h3>ℹ️ App Information</h3>
+                        <p>Version: 1.0.0</p>
+                        <p>Status: ✅ Active</p>
+                        <button onclick="showAbout()" class="btn-secondary">ℹ️ About App</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2>✏️ Edit Batch</h2>
+            <form id="editForm">
+                <div class="form-group">
+                    <label for="editBatchName">Batch Name:</label>
+                    <input type="text" id="editBatchName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editQuantity">Quantity (PCs):</label>
+                    <input type="number" id="editQuantity" required>
+                </div>
+                <div class="form-group">
+                    <label for="editStartDate">Start Date:</label>
+                    <input type="date" id="editStartDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="editExpectedHarvest">Expected Harvest Days:</label>
+                    <input type="number" id="editExpectedHarvest" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">💾 Save Changes</button>
+                    <button type="button" onclick="closeEditModal()" class="btn-secondary">❌ Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Details Modal -->
+    <div id="detailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDetailsModal()">&times;</span>
+            <h2>📋 Batch Details</h2>
+            <div id="detailsContent" class="details-content"></div>
+            <div class="modal-actions">
+                <button onclick="closeDetailsModal()" class="btn-secondary">✅ Close</button>
+            </div>
         </div>
     </div>
 
